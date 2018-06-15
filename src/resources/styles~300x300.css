@@ -1,0 +1,128 @@
+#header {
+  fill: #404040;
+}
+
+.header-text {
+  fill: #ffffff;
+  font-family: Fabrikat;
+}
+
+#date-now {font-size: 22;}
+#battery { font-size: 20; }
+#time-now { font-size: 28; font-weight: bold; }
+
+.event-time-text {
+  font-size: 22;
+  line-increment: 22;
+  font-family: Fabrikat;
+  fill: #ffffff;
+}
+
+.event-primary-text {
+  font-size: 30;
+  line-increment: 27;
+  font-family: Fabrikat;
+  font-weight: bold;
+  fill: #ffffff;
+}
+
+.event-secondary-text {
+  font-size: 30;
+  line-increment: 30;
+  font-family: Fabrikat;
+  fill: #ffffff;
+}
+
+.last-update-text {
+  font-size: 18;
+  font-family: Fabrikat;
+  fill: #ffffff;
+  opacity: 0.75;
+}
+
+.date-separator-text-old {
+  font-size: 25;
+  font-family: Fabrikat;
+  fill: fb-aqua;
+  opacity: 1;
+}
+
+.date-separator-text {
+  fill: #ffffff;
+  font-family: Fabrikat;
+  font-size: 22;
+}
+
+.sv-event-item {
+  height: 90;
+  width: 100%;
+}
+
+.sv-separator-item {
+  height: 30;
+  width: 100%;
+}
+
+#dsv-calendar-text {
+  font-size: 30;
+  font-family: System-Bold;
+  fill: #ffffff;
+  opacity: 0.75;
+}
+
+#dsv-time-text {
+  font-size: 30;
+  line-increment: 30;
+  font-family: System-Bold;
+  fill: fb-aqua;
+}
+
+#dsv-summary-text {
+  font-size: 50;
+  line-increment: 45;
+  font-family: System-Light;
+  fill: fb-aqua;
+  opacity: 1;
+}
+
+#dsv-location-text {
+  font-size: 30;
+  line-increment: 30;
+  font-family: System-Regular;
+  fill: #ffffff;
+  opacity: 0.8;
+}
+
+.countdown-name {
+  font-size: 20;
+  fill: #ffffff;
+}
+
+.countdown-target {  
+  font-size: 20;
+  fill: #ffffff;
+}
+
+.countdown-now {
+  font-size: 20;
+  fill: #ffffff;
+}
+
+.countdown-time {
+  y: 120;
+  font-size: 75;
+  line-increment: 65;
+  fill: #ffffff;
+}
+
+.countdown-location {
+  font-size: 20;
+}
+
+.no-event-message {
+  font-size: 25;
+  line-increment: 25;
+  font-family: System-Regular;
+  fill: #ffffff;
+  opacity: 0.75;
+}

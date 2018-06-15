@@ -1,0 +1,69 @@
+<svg>
+  <defs>
+    <!-- Event update time component -->
+    <symbol id="event-update-tag" href="#tile-list-item" height="30" display="none">
+      <text id="text" class="last-update-text" x="50%" y="20" text-length="32" text-anchor="middle">updated at 23:45 tomorrow</text>
+    </symbol>
+    
+    <!-- Event date -->
+    <symbol id="date-separator" href="#tile-list-item" height="40" display="none">
+      <text id="text" class="date-separator-text" x="15" y="30" text-anchor="start" text-length="16">Mon, 14 Jun</text>
+    </symbol>
+    
+    <!-- No event message -->
+    <symbol id="no-event-message" href="#tile-list-item" height="200" display="none">
+      <textarea id="text" class="no-event-message" x="10" y="20" fill="white" text-anchor="middle" width="100%-20" text-length="256">No event to display.</textarea>
+    </symbol>
+    
+    <!-- Event that is happening now -->
+    <symbol id="event-entry-now" href="#tile-list-item" height="95" display="none" pointer-events="visible">
+      <image href="338-90-box.png" id="event-desc-bg" x="5" y="0" width="100%-10" height="100%-5" fill="#ffffff" opacity="0.30"/>
+      <image href="5-80-box.png" id="event-color" x="100%-15" y="5" width="5" height="100%-15" fill="#00A4EE" />
+      <text id="event-time" class="event-time-text" x="15" y="25" text-anchor="start" text-length="32">12:34 ~ 13:45</text>
+      <textarea id="event-summary" class="event-primary-text" x="15" y="22" width="100%-35" height="45" text-overflow="ellipsis" text-length="128">Lorem ipsum dolor sit amet consecturer ipso lurem tolarist</textarea>
+      <textarea id="event-location" class="event-secondary-text" x="15" y="50" width="100%-35" text-anchor="start" rows="1" text-overflow="ellipsis" text-length="64">This is a place, City, State, Country</textarea>
+    </symbol>
+    
+    <!-- Normal event -->
+    <symbol id="event-entry" href="#tile-list-item" height="95" display="none" pointer-events="visible">
+      <image href="338-90-box.png" id="event-desc-bg" x="5" y="0" width="100%-10" height="100%-5" fill="#ffffff" opacity="0.15"/>
+      <image href="5-80-box.png" id="event-color" x="100%-15" y="5" width="5" height="100%-15" fill="#00A4EE" />
+      <text id="event-time" class="event-time-text" x="15" y="25" text-anchor="start" text-length="32">12:34 ~ 13:45</text>
+      <textarea id="event-summary" class="event-primary-text" x="15" y="22" width="100%-35" height="45" text-overflow="ellipsis" text-length="128">Lorem ipsum dolor sit amet consecturer ipso lurem tolarist</textarea>
+      <textarea id="event-location" class="event-secondary-text" x="15" y="50" width="100%-35" text-anchor="start" rows="1" text-overflow="ellipsis" text-length="64">This is a place, City, State, Country</textarea>
+    </symbol>
+    
+    <!-- All day event -->
+    <symbol id="event-entry-all-day" href="#tile-list-item" height="55" display="none" pointer-events="visible">
+      <image href="338-50-box.png" x="5" y="0" width="100%-10" height="100%-5" fill="#ffffff" opacity="0.15"/>
+      <image href="5-40-box.png" id="event-color" x="100%-15" y="5" width="5" height="100%-15" fill="#00A4EE" />
+      <textarea id="event-summary" class="event-secondary-text" x="15" y="5" width="100%-35" text-anchor="start" rows="1" text-overflow="ellipsis" text-length="32">All day event.</textarea>
+    </symbol>
+    
+    <!-- Countdown view -->
+    <symbol id="countdown-view" href="#panoramaview-item">
+      <text x="10" y="40" class="countdown-name" id="countdown-name" text-anchor="start">Happening now...</text>
+      <text x="100%-10" y="40" class="countdown-target" id="countdown-target" text-anchor="end" text-length="16">10:20, 20 Nov</text>
+      <use id="event-name-marquee" href="#marquee-text" font-size="35" x="10" y="40" width="100%-20"
+        height="60" fill="fb-aqua" mode="0" value="50">
+        <set href="group/text" attributeName="text-buffer" to="Event going on with a super long name" />
+        <set href="group/text" attributeName="text-length" to="1024" />
+        <set href="group/separator" attributeName="width" to="50" />
+      </use>
+      <textarea id="event-location" x="10" y="95" width="100%-20" class="countdown-location" fill="aqua" text-anchor="start" rows="1" text-overflow="ellipsis" text-length="1024">This is a place, City, State, Country</textarea>
+      
+      <textarea id="countdown-time" x="10" width="100%-20" class="countdown-time" text-anchor="start" rows="2" text-overflow="ellipsis"  text-length="32">1w 3d 18:20:27</textarea>
+      
+      <text x="10" y="100%-15" class="countdown-now" id="date-now" text-anchor="start" text-length="16">20 Nov 2018.</text>
+      <text x="100%-10" y="100%-15" class="countdown-now" id="time-now" text-anchor="end" text-length="8">10:30</text>
+    </symbol>
+    
+    <!-- Snackbar -->
+    <symbol id="snack-bar-symbol" type="dynamic-textarea" system-events="all" pointer-events="visible">
+      <rect id="background" x="0" y="0" width="100%" height="100%+45" fill="fb-extra-dark-gray" />
+      <rect x="0" y="100%+45" width="100%" height="5" fill="#000000" opacity="0.5" />
+      <textarea id="text" fill="white" x="10" y="10" width="100%-20" font-size="25" line-increment="25"/>
+      <rect x="10" y="$+15" width="100%-20" height="2" fill="fb-cyan" />
+    </symbol>
+  </defs>
+</svg>

@@ -1,0 +1,22 @@
+{
+  "fitbit": {
+    "appUUID": "38b688ed-0ff1-40cc-a906-5a9a50852740",
+    "appType": "app",
+    "appDisplayName": "Schedule",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#f44336",
+    "requestedPermissions": [
+      "access_internet",
+      "run_background"
+    ],
+    "buildTargets": [
+      "meson",
+      "higgs"
+    ],
+    "i18n": {
+      "en": {
+        "name": "Schedule"
+      }
+    }
+  }
+}

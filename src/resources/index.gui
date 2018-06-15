@@ -1,0 +1,141 @@
+<svg>
+  <link rel="import" href="components.gui" />
+  <use id="container" href="#panoramaview">
+    <use id="event-list-panorama-view" href="#panoramaview-item">
+      <use href="#tile-list" id="event-list" x="0" y="40" width="100%" height="100%-40">
+        <var id="virtual" value="1" />
+        
+        <use id="last-update-pool" href="#tile-list-pool">
+          <use href="#event-update-tag" id="last-update-pool[1]"></use>
+        </use>
+        
+        <use id="no-event-message-pool" href="#tile-list-pool">
+          <use href="#no-event-message" id="no-event-message-pool[1]"></use>
+        </use>
+        
+        <use id="date-separator-pool" href="#tile-list-pool">
+          <use href="#date-separator" id="date-separator-pool[1]"></use>
+          <use href="#date-separator" id="date-separator-pool[2]"></use>
+          <use href="#date-separator" id="date-separator-pool[3]"></use>
+          <use href="#date-separator" id="date-separator-pool[4]"></use>
+          <use href="#date-separator" id="date-separator-pool[5]"></use>
+          <use href="#date-separator" id="date-separator-pool[6]"></use>
+          <use href="#date-separator" id="date-separator-pool[7]"></use>
+          <use href="#date-separator" id="date-separator-pool[8]"></use>
+          <use href="#date-separator" id="date-separator-pool[9]"></use>
+          <use href="#date-separator" id="date-separator-pool[10]"></use>
+        </use>
+        
+        <use id="event-now-pool" href="#tile-list-pool">
+          <use href="#event-entry-now" id="event-now-pool[1]"></use>
+          <use href="#event-entry-now" id="event-now-pool[2]"></use>
+          <use href="#event-entry-now" id="event-now-pool[3]"></use>
+          <use href="#event-entry-now" id="event-now-pool[4]"></use>
+          <use href="#event-entry-now" id="event-now-pool[5]"></use>
+          <use href="#event-entry-now" id="event-now-pool[6]"></use>
+          <use href="#event-entry-now" id="event-now-pool[7]"></use>
+          <use href="#event-entry-now" id="event-now-pool[8]"></use>
+          <use href="#event-entry-now" id="event-now-pool[9]"></use>
+          <use href="#event-entry-now" id="event-now-pool[10]"></use>
+        </use>
+        
+        <use id="event-pool" href="#tile-list-pool">
+          <use href="#event-entry" id="event-pool[1]"></use>
+          <use href="#event-entry" id="event-pool[2]"></use>
+          <use href="#event-entry" id="event-pool[3]"></use>
+          <use href="#event-entry" id="event-pool[4]"></use>
+          <use href="#event-entry" id="event-pool[5]"></use>
+          <use href="#event-entry" id="event-pool[6]"></use>
+          <use href="#event-entry" id="event-pool[7]"></use>
+          <use href="#event-entry" id="event-pool[8]"></use>
+          <use href="#event-entry" id="event-pool[9]"></use>
+          <use href="#event-entry" id="event-pool[10]"></use>
+        </use>
+        
+        <use id="all-day-event-pool" href="#tile-list-pool">
+          <use href="#event-entry-all-day" id="all-day-event-pool[1]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[2]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[3]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[4]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[5]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[6]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[7]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[8]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[9]"></use>
+          <use href="#event-entry-all-day" id="all-day-event-pool[10]"></use>
+        </use>
+    </use>
+
+    <svg id="header-container" x="0" y="0" width="100%" height="40" pointer-events="visible">
+      <rect id="header" x="0" y="0" width="100%" height="100%" />
+      <text id="date-now" class="header-text" x="15" y="30" text-anchor="start">10 DEC, 2018</text>
+      <text id="battery" class="header-text" x="100%-85" y="30" text-anchor="end">80%</text>
+      <text id="time-now" class="header-text" x="100%-15" y="30" text-anchor="end">23:45</text>
+    </svg>
+    </use>
+    <use id="this-event-countdown" href="#countdown-view">
+      <set href="event-name-marquee/group/text" attributeName="text-buffer" to="Event name" />
+      <set href="event-location" attributeName="text-buffer" to="A place where it happens." />
+      <set href="countdown-time" attributeName="text-buffer" to="10:25" />
+    </use>
+    
+    <use id="next-event-countdown" href="#countdown-view">
+      <set href="countdown-name" attributeName="text-buffer" to="Next event" />
+    </use>
+    
+
+    <!-- Have enough pagination dots for your slides (extras are hidden) -->
+    <use id="pagination-dots" href="#pagination-widget" y="8">
+      <use href="#pagination-dot" />
+      <use href="#pagination-dot" />
+      <use href="#pagination-dot" />
+      <use href="#pagination-highlight-dot" />
+    </use>
+  </use>
+  
+  <svg id="detail-overlay" x="0" y="0" width="100%" height="100%" pointer-events="visible" display="none">
+    <animate attributeName="display" begin="expand" to="inline" />
+    <animate attributeName="display" begin="collapse+0.25" to="none" />
+    <rect id="overlay-backgorund" x="0" y="0" width="100%" height="100%" fill="#0f0f0f"/>
+    <use href="#scrollview" id="detail-overlay-sv" x="0" y="0" width="100%" height="100%">
+      <use href="#scrollview-item" id="dsv-item" height="200%">
+        <use id="dsv-calendar-text" x="10" y="10" width="100%-20" href='#dynamic-textarea' overflow='visible'>
+          <set href='#text' attributeName='text-buffer' to='Calendar Name'/>
+          <set href='#text' attributeName='font-family' to='System-Regular'/>
+          <set href='#text' attributeName='font-size' to='inherit'/>
+          <set href='#text' attributeName='text-length' to='128'/>
+        </use>
+        <use id="dsv-time-text" x="10" y="$+10" width="100%-20" href='#dynamic-textarea' overflow='visible'>
+          <set href='#text' attributeName='text-buffer' to='Wed 12 Mar 10:10
+Thu 13 Mar 10:30'/>
+          <set href='#text' attributeName='font-family' to='System-Regular'/>
+          <set href='#text' attributeName='font-size' to='inherit'/>
+          <set href='#text' attributeName='line-increment' to='inherit'/>
+          <set href='#text' attributeName='text-length' to='64'/>
+        </use>
+        <use id="dsv-summary-text" x="10" y="$+10" width="100%-20" href='#dynamic-textarea' overflow='visible'>
+          <set href='#text' attributeName='text-buffer' to='Lorem ipsum dolor sit amet consecturer ipso lurem tolarist'/>
+          <set href='#text' attributeName='font-family' to='System-Light'/>
+          <set href='#text' attributeName='font-size' to='inherit'/>
+          <set href='#text' attributeName='line-increment' to='inherit'/>
+          <set href='#text' attributeName='text-length' to='1024'/>
+        </use>
+        <use id="dsv-location-text" x="10" y="$+10" width="100%-20" href='#dynamic-textarea' overflow='visible'>
+          <set href='#text' attributeName='text-buffer' to='This is a place, City, State, Country This is a place, City, State, Country This is a place, City, State, Country'/>
+          <set href='#text' attributeName='font-family' to='System-Regular'/>
+          <set href='#text' attributeName='font-size' to='inherit'/>
+          <set href='#text' attributeName='line-increment' to='inherit'/>
+          <set href='#text' attributeName='text-length' to='1024'/>
+        </use>
+        <use href="#square-button-neutral" id="dsv-back-button" y="$+10">
+          <set href="#text" attributeName="text-buffer" to="Back" />
+        </use>
+      </use>
+    </use>
+  </svg>
+  <use id="snackbar" href="#snack-bar-symbol" x="0" y="-100%" width="100%" pointer-events="visible" display="none">
+    <animate attributeName="y" begin="expand" from="-100%" to="0" dur="0.5" easing="ease-in-out" />
+    <animate attributeName="y" begin="click;expand+3" to="-100%" from="0" dur="0.5" easing="ease-in-out" />
+    <set href="text" attributeName="text-buffer" to="Lorem ipsum dolor sit amet, cum te cibo appareat. No per paulo hendrerit similique." />
+  </use>
+</svg>
