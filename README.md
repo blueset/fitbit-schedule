@@ -25,19 +25,25 @@ A schedule viewer for Fitbit OS 2.
 
 | Versa | | |
 | - | - | - |
-| ![Screenshot 0](screenshots/Versa-0.png) | ![Screenshot 1](screenshots/Versa-1.png) | ![Screenshot 2](screenshots/Versa-2.png) |
-| ![Screenshot 3](screenshots/Versa-3.png) | ![Screenshot 4](screenshots/Versa-4.png) | |
+| ![Screenshot 0](screenshots/Versa-0.png?raw=true) | ![Screenshot 1](screenshots/Versa-1.png?raw=true) | ![Screenshot 2](screenshots/Versa-2.png?raw=true) |
+| ![Screenshot 3](screenshots/Versa-3.png?raw=true) | ![Screenshot 4](screenshots/Versa-4.png?raw=true) | |
 
 | Ionic | |
 | - | - |
-| ![Screenshot 1](screenshots/Ionic-1.png) | ![Screenshot 2](screenshots/Ionic-2.png) |
-| ![Screenshot 3](screenshots/Ionic-3.png) | ![Screenshot 4](screenshots/Ionic-4.png) |
+| ![Screenshot 1](screenshots/Ionic-1.png?raw=true) | ![Screenshot 2](screenshots/Ionic-2.png?raw=true) |
+| ![Screenshot 3](screenshots/Ionic-3.png?raw=true) | ![Screenshot 4](screenshots/Ionic-4.png?raw=true) |
 
 ## Plan
 
 - [ ] Multilingual support
 - [ ] Other calendar service support (Outlook, etc.)
 - [ ] Theming
+
+## Support
+
+If you like my apps, [buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ilove@1a23.com&item_name=Donation%20%28Schedule%20App%29) :)
+
+Or if you want to help develop it, send a pull request!
 
 ## License
 
