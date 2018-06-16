@@ -1,5 +1,6 @@
 const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+import { preferences } from "user-settings";
 
 export function twoDig(num) { return ("0" + num).slice(-2); }
 
@@ -18,7 +19,16 @@ export function monoDig(str) {
 export function formatTime(timeStamp) {
     let date = timeStamp;
     if (typeof date.getTime !== "function") date = new Date(timeStamp);
-    return twoDig(date.getHours()) + ":" + twoDig(date.getMinutes());
+    if (preferences.clockDisplay === "24h")
+        return twoDig(date.getHours()) + ":" + twoDig(date.getMinutes());
+    else {  // 12h
+        let postfix;
+        if (date.getHours() === 0) postfix = "m";
+        else if (date.getHours() === 12) postfix = "n";
+        else if (date.getHours() < 12) postfix = "a";
+        else postfix = "p";
+        return twoDig((date.getHours() + 11) % 12 + 1) + ":" + twoDig(date.getMinutes()) + postfix;
+    }
 }
 
 export function formatDate(timeStamp, markToday) {
