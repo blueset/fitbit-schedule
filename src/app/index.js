@@ -70,17 +70,13 @@ inbox.addEventListener("newfile", function() {
 messaging.peerSocket.onmessage = (evt) => {
   if (evt.data.newValue === "false") evt.data.newValue = false;
   else if (evt.data.newValue === "true") evt.data.newValue = true;
-  console.log(`${evt.data.key} received with value ${evt.data.newValue}`);
   settings[evt.data.key] = evt.data.newValue;
  
   if (evt.data.key === 'oauth_refresh_token' && !evt.data.restore) {
     // Google calendar OAuth settings
-    console.log("New OAuth refresh token received");
     if (evt.data.newValue === undefined) {
-      console.log("Dropping events...");
       calendar.dropEvents();
     } else if (calendar.fetchEvents()) {
-      console.log("Rendering events...");
       calendar.onUpdate();
     }
   } else if (evt.data.key === 'system_default_font' && !evt.data.restore) {
