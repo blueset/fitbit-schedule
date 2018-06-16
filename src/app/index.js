@@ -1,3 +1,8 @@
+
+import { memory } from "system";
+
+console.log("On start JS memory: " + memory.js.used + "/" + memory.js.total);
+
 import document from "document";
 import * as messaging from "messaging";
 import { inbox } from "file-transfer";
@@ -5,6 +10,7 @@ import clock from "clock";
 import { battery } from "power";
 import { me } from "appbit";
 import { me as device } from "device";
+import { locale } from "user-settings"; 
 
 if (!device.screen) device.screen = { width: 348, height: 250 };
 
@@ -19,8 +25,6 @@ import { renderCountdown, tickCountdown } from "countdown.js";
 
 const calendar = new GCalendar();
 
-clock.granularity = "seconds";
-
 var listStorage = [];
 
 const dateText = document.getElementById("date-now");
@@ -29,14 +33,14 @@ const batteryText = document.getElementById("battery");
 
 const eventListSV = document.getElementById("event-list");
 const container = document.getElementById("container");
-const timeAgoI = timeAgo();
-
 var settings = loadSettings();
+
+clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
 
 var fontFamily;
 
 function updateFont() {
-  fontFamily = settings.system_default_font ? "System" : "Fabrikat";
+  fontFamily = (settings.system_default_font) ? "System" : "Fabrikat";
   dateText.style.fontFamily = `${fontFamily}-Regular`;
 }
 
@@ -52,7 +56,7 @@ clock.ontick = function(evt) {
     batteryText.text = Math.floor(battery.chargeLevel) + "%";
     batteryText.x = timeText.getBBox().left - 5;
   } else {
-    tickCountdown(evt, false);
+    tickCountdown(settings, evt, false);
   }
 };
 
@@ -83,6 +87,12 @@ messaging.peerSocket.onmessage = (evt) => {
     // Font change
     updateFont();
     eventListSV.redraw();
+  } else if (!evt.data.restore && (evt.data.key === "hide_countdown")) {
+    renderEvents();
+    clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
+  } else if (!evt.data.restore && evt.data.key === "countdown_second") {
+    tickCountdown(settings, { date: new Date() }, true);
+    clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
   }
 };
 
@@ -98,14 +108,14 @@ messaging.peerSocket.onclose = () => {
 
 function renderEvents(){
   if (!me.permissions.granted("access_internet")) {
-    renderCountdown([]);
+    renderCountdown(settings, []);
     listStorage = renderPersistentErrorMessage("Internet access permission is required to run this app.", eventListSV);
     return;
   }
   if (!me.permissions.granted("run_background"))
     listStorage = renderSnackbar("Run-in-background permission is not granted. Your calendar update may be delayed.", eventListSV);
   if (!settings.oauth_refresh_token) {
-    renderCountdown([]);
+    renderCountdown(settings, []);
     listStorage = renderPersistentErrorMessage("You need to log in to your calendar in the app settings first. If you have logged in, restart the app to refresh.", eventListSV);
     return;
   }
@@ -150,7 +160,7 @@ function renderEvents(){
   eventListSV.length = listStorage.length;
   for (let i = 0; i < eventListSV.length; i++) eventListSV.updateTile(i, {redraw: false});
   eventListSV.redraw();
-  renderCountdown(events);
+  renderCountdown(settings, events);
 }
 
 const dsvItem = document.getElementById("dsv-item");

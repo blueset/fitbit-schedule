@@ -36,6 +36,14 @@ function mySettings(props) {
           settingsKey="system_default_font"
           label="Enable East Asian language support"
         />
+        <Toggle
+          settingsKey="hide_countdown"
+          label="Hide countdowns"
+        />
+        <Toggle
+          settingsKey="countdown_second"
+          label="Show seconds in countdown"
+        />
       </Section>
     </Page>
   );
