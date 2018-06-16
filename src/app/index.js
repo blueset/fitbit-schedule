@@ -5,7 +5,6 @@ import clock from "clock";
 import { battery } from "power";
 import { me } from "appbit";
 import { me as device } from "device";
-import { locale } from "user-settings"; 
 
 if (!device.screen) device.screen = { width: 348, height: 250 };
 
@@ -17,7 +16,6 @@ import { renderPersistentErrorMessage } from "utils.js";
 import { renderOverlay, overlayInit } from "overlay.js";
 import { loadSettings, saveSettings } from "settings.js";
 import { renderCountdown, tickCountdown } from "countdown.js";
-import { timeAgo } from "timeAgo.js";
 
 const calendar = new GCalendar();
 
@@ -38,13 +36,11 @@ var settings = loadSettings();
 var fontFamily;
 
 function updateFont() {
-  fontFamily = (settings.system_default_font || locale.language.match(/^(zh|ja|ko)/)) ? "System" : "Fabrikat";
+  fontFamily = settings.system_default_font ? "System" : "Fabrikat";
   dateText.style.fontFamily = `${fontFamily}-Regular`;
 }
 
 updateFont();
-
-
 
 me.onunload = () => {saveSettings(settings);};
 
@@ -118,7 +114,7 @@ function renderEvents(){
   listStorage = [
     {
       type: "last-update-pool",
-      value: `updated ${timeAgoI.format(lastUpdateTime)}`
+      value: `updated at ${formatTime(lastUpdateTime)} ${formatDate(lastUpdateTime, true)}`
     }
   ];
   let lastDay = formatDate(now, false);

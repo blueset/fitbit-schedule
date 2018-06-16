@@ -36,7 +36,6 @@ function mySettings(props) {
           settingsKey="system_default_font"
           label="Enable East Asian language support"
         />
-        <Text>This option is always on if your system is in a support East Asian Language.</Text>
       </Section>
     </Page>
   );
