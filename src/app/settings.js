@@ -6,10 +6,13 @@ export function loadSettings() {
         return fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
     } catch (ex) {
         // Defaults
-        return { default: new Date() };
+        return { 
+          default: new Date(),
+          system_default_font: false
+        };
     }
 }
 
-export function saveSettings() {
+export function saveSettings(settings) {
     fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
 }

@@ -1,4 +1,5 @@
 import document from "document";
+import { formatTime, formatDate, formatTimeRange } from "timeFormat.js";
 
 /* Overlay */
 const dsvOverlay = document.getElementById('detail-overlay');

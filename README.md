@@ -36,6 +36,7 @@ A schedule viewer for Fitbit OS 2.
 ## Plan
 
 - [ ] Multilingual support
+- [x] East Asian text support
 - [ ] Other calendar service support (Outlook, etc.)
 - [ ] Theming
 - [ ] On/Off switch for countdowns

@@ -2,7 +2,6 @@ import { settingsStorage } from "settings";
 import { outbox } from "file-transfer";
 import { peerSocket } from "messaging";
 import * as cbor from "cbor";
-import { G_CALENDAR_CLIENT_ID, G_CALENDAR_CLIENT_SECRET } from "../common/config";
 import { GC_DATA_FILE, GC_ERROR_FILE, GC_UPDATE_TOKEN, MAX_EVENT_COUNT } from "../common/const";
 
 const colorMapping = {
@@ -58,7 +57,7 @@ export default class GCalendar {
     let self = this;
     this.data = {lastUpdate: 0};
     peerSocket.addEventListener("message", (evt) => {
-      console.log(`listening socket heard ${evt} ${evt.data} ${JSON.stringify(evt.data)}`);
+      console.log(`listening socket heard ${JSON.stringify(evt.data)}`);
       // We are receiving a request from the app
       if (evt.data === undefined) return;
       if (evt.data[GC_UPDATE_TOKEN] == true) {
@@ -186,7 +185,7 @@ function refreshToken(oAuthData) {
   return fetch("https://www.googleapis.com/oauth2/v4/token", {
     headers: {"Content-Type": "application/x-www-form-urlencoded", },
     method: 'POST',
-    body: `client_id=${G_CALENDAR_CLIENT_ID}&client_secret=${G_CALENDAR_CLIENT_SECRET}&grant_type=refresh_token&refresh_token=${encodeURIComponent(refreshToken)}`,
+    body: "client_id=944815048061-arqtkmed31rn718pcrud4btgvjege6pe.apps.googleusercontent.com&client_secret=-6DtJ6cNDw6Xb31fOp3xtkvx&grant_type=refresh_token&refresh_token=" + encodeURIComponent(refreshToken),
   })
   .then((resp) => resp.json())
   .then((json) => {

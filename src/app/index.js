@@ -5,6 +5,8 @@ import clock from "clock";
 import { battery } from "power";
 import { me } from "appbit";
 import { me as device } from "device";
+import { locale } from "user-settings"; 
+
 if (!device.screen) device.screen = { width: 348, height: 250 };
 
 import GCalendar from "./gCalendar.js";
@@ -15,6 +17,7 @@ import { renderPersistentErrorMessage } from "utils.js";
 import { renderOverlay, overlayInit } from "overlay.js";
 import { loadSettings, saveSettings } from "settings.js";
 import { renderCountdown, tickCountdown } from "countdown.js";
+import { timeAgo } from "timeAgo.js";
 
 const calendar = new GCalendar();
 
@@ -28,10 +31,22 @@ const batteryText = document.getElementById("battery");
 
 const eventListSV = document.getElementById("event-list");
 const container = document.getElementById("container");
+const timeAgoI = timeAgo();
 
-let settings = loadSettings();
+var settings = loadSettings();
 
-me.onunload = saveSettings;
+var fontFamily;
+
+function updateFont() {
+  fontFamily = (settings.system_default_font || locale.language.match(/^(zh|ja|ko)/)) ? "System" : "Fabrikat";
+  dateText.style.fontFamily = `${fontFamily}-Regular`;
+}
+
+updateFont();
+
+
+
+me.onunload = () => {saveSettings(settings);};
 
 clock.ontick = function(evt) {
   // Output the date object
@@ -53,11 +68,26 @@ inbox.addEventListener("newfile", function() {
 });
 
 messaging.peerSocket.onmessage = (evt) => {
-  if (evt.data.key === 'oauth' && evt.data.newValue && !evt.data.restore) {
-    if (calendar.fetchEvents() || settings.oauth === undefined)
-      renderEvents();
-  }
+  if (evt.data.newValue === "false") evt.data.newValue = false;
+  else if (evt.data.newValue === "true") evt.data.newValue = true;
+  console.log(`${evt.data.key} received with value ${evt.data.newValue}`);
   settings[evt.data.key] = evt.data.newValue;
+ 
+  if (evt.data.key === 'oauth_refresh_token' && !evt.data.restore) {
+    // Google calendar OAuth settings
+    console.log("New OAuth refresh token received");
+    if (evt.data.newValue === undefined) {
+      console.log("Dropping events...");
+      calendar.dropEvents();
+    } else if (calendar.fetchEvents()) {
+      console.log("Rendering events...");
+      calendar.onUpdate();
+    }
+  } else if (evt.data.key === 'system_default_font' && !evt.data.restore) {
+    // Font change
+    updateFont();
+    eventListSV.redraw();
+  }
 };
 
 messaging.peerSocket.onopen = () => {
@@ -73,14 +103,14 @@ messaging.peerSocket.onclose = () => {
 function renderEvents(){
   if (!me.permissions.granted("access_internet")) {
     renderCountdown([]);
-    return renderPersistentErrorMessage("Internet access permission is required to run this app.");
+    listStorage = renderPersistentErrorMessage("Internet access permission is required to run this app.", eventListSV);
+    return;
   }
-  
   if (!me.permissions.granted("run_background"))
-    renderSnackbar("Run-in-background permission is not granted. Your calendar update may be delayed.");
+    listStorage = renderSnackbar("Run-in-background permission is not granted. Your calendar update may be delayed.", eventListSV);
   if (!settings.oauth_refresh_token) {
     renderCountdown([]);
-    renderPersistentErrorMessage("You need to log in to your calendar in the app settings first. If you have logged in, restart the app to refresh.");
+    listStorage = renderPersistentErrorMessage("You need to log in to your calendar in the app settings first. If you have logged in, restart the app to refresh.", eventListSV);
     return;
   }
   const lastUpdateTime = calendar.getLastUpdate();
@@ -88,14 +118,14 @@ function renderEvents(){
   listStorage = [
     {
       type: "last-update-pool",
-      value: `updated at ${formatTime(lastUpdateTime)} ${formatDate(lastUpdateTime, true)}`
+      value: `updated ${timeAgoI.format(lastUpdateTime)}`
     }
   ];
   let lastDay = formatDate(now, false);
   const events = calendar.getEvents();
   if (events === undefined || events.length === 0) {
     console.log('Calendar events are undefined or empty!');
-    renderPersistentErrorMessage("You have no further event.");
+    listStorage = renderPersistentErrorMessage("You have no further event.", eventListSV);
     return;
   }
   for (let i in events) {
@@ -128,6 +158,7 @@ function renderEvents(){
 }
 
 const dsvItem = document.getElementById("dsv-item");
+const dsvOverlay = document.getElementById('detail-overlay');
 document.onkeypress = function(e) {
   if (dsvOverlay.style.display == 'inline') {
     if (e.key == "back") {
@@ -151,22 +182,30 @@ document.onkeypress = function(e) {
 }
 
 document.getElementById("header-container").onclick = () => {
-  renderSnackBar("Updating...");
-  calendar.fetchEvents();
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    renderSnackBar("Updating...");
+    calendar.fetchEvents();
+  } else {
+    renderSnackBar("No connection to companion app.")
+  }
 };
 
 eventListSV.delegate = {
   getTileInfo: function(index) {
-    listStorage[index].index = index;
+    if (listStorage[index])
+      listStorage[index].index = index;
     return listStorage[index];
   },
   configureTile : function(tile, info) {
+    let textElement = tile.getElementById('text');
     if (info.type === "date-separator-pool" || info.type === "last-update-pool") {
-      tile.getElementById('text').text = info.value;
+      textElement.text = info.value;
+      textElement.style.fontFamily = `${fontFamily}-Regular`;
       return;
     }
     if (info.type === "no-event-message-pool") {
-      tile.getElementById('text').text = info.value;
+      textElement.text = info.value;
+      textElement.style.fontFamily = `${fontFamily}-Regular`;
       return;
     }
     
@@ -174,10 +213,13 @@ eventListSV.delegate = {
     
     let summary = tile.getElementById('event-summary');
     summary.text = info.event.summary;
-    if (info.type === "event-pool" || info.type === "event-now-pool") {
+    summary.style.fontFamily = `${fontFamily}-Regular`;
+    if (info.type === "event-pool" || info.type === "event-now-pool") {    
+      summary.style.fontFamily = `${fontFamily}-Bold`;
       let location = tile.getElementById('event-location');
       summary.style.height = 45;
       summary.rows = 1;
+      location.style.fontFamily = `${fontFamily}-Regular`;
       if (summary.textOverflowing || !info.event.location) {
         summary.height = 150;
         summary.rows = 2;
@@ -186,8 +228,10 @@ eventListSV.delegate = {
         location.style.display = "inline";
         location.text = info.event.location;
       }
-      tile.getElementById('event-time').text = 
+      let evtTime = tile.getElementById('event-time');
+      evtTime.text = 
         formatTimeRange(info.event.start, info.event.end, true, info.event.allDay, false);
+      evtTime.style.fontFamily = `${fontFamily}-Regular`;
     }
     tile.value = info.index;
     
@@ -202,5 +246,4 @@ overlayInit(container);
 
 calendar.onUpdate = renderEvents;
 calendar.onError = renderSnackBar;
-
 renderEvents();

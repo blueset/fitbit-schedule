@@ -80,4 +80,9 @@ export default class GCalendar {
     }
     return this._events;
   }
+  
+  dropEvents() {
+    fs.unlinkSync(GC_DATA_FILE);
+    this.onUpdate();
+  }
 }
