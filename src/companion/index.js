@@ -45,7 +45,6 @@ function restoreSettings() {
 // Send data to device using Messaging API
 function sendVal(data) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    console.log(`${data.key} sent with value ${data.newValue}`);
     messaging.peerSocket.send(data);
   } else {
     console.log(`${data.key} is not sent due to lost of connection`);
