@@ -1,5 +1,4 @@
-const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+import { _ } from "../common/locale.js";
 import { preferences } from "user-settings";
 
 export function twoDig(num) { return ("0" + num).slice(-2); }
@@ -31,12 +30,7 @@ export function formatTime(timeStamp) {
     }
 }
 
-export function formatDate(timeStamp, markToday) {
-    let time = new Date(timeStamp);
-    if (time.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0) && markToday)
-        return "Today";
-    return `${dayNames[time.getDay()]}, ${time.getDate()} ${monthNames[time.getMonth()]}`;
-}
+export const formatDate = _("formatDate");
 
 export function formatTimeRange(start, end, markToday, allDay, markDate) {
     if (allDay) {

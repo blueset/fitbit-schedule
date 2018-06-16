@@ -1,4 +1,5 @@
 import document from "document";
+import { _ } from "../common/locale.js";
 import { twoDig, monoDig, formatTime, formatDate } from "timeFormat.js";
 
 /* Countdown */
@@ -33,7 +34,7 @@ export function renderCountdown(events) {
         thisEventPage.style.display = "inline";
         let downToTime = formatTime(thisEvent.end);
         let downToDate = formatDate(thisEvent.end, true);
-        if (downToDate !== "Today") downToTime += ", " + downToDate;
+        if (downToDate !== _("today")) downToTime += ", " + downToDate;
         thisEventPage.getElementById("countdown-target").text = downToTime;
         thisMarquee.getElementById("text").text = thisEvent.summary;
         thisMarquee.getElementById("copy").text = thisEvent.summary;
@@ -46,7 +47,7 @@ export function renderCountdown(events) {
         nextEventPage.style.display = "inline";
         let downToTime = formatTime(nextEvent.end);
         let downToDate = formatDate(nextEvent.end, true);
-        if (downToDate !== "Today") downToTime += ", " + downToDate;
+        if (downToDate !== _("today")) downToTime += ", " + downToDate;
         nextEventPage.getElementById("countdown-target").text = downToTime;
         nextMarquee.getElementById("text").text = nextEvent.summary;
         nextMarquee.getElementById("copy").text = nextEvent.summary;
@@ -72,13 +73,13 @@ function countdownStr(now, then) {
     days = diff % 7;
     weeks = diff / 7 >> 0;
     let ret = [];
-    if (weeks != 0) ret.push(weeks + "w");
-    if (days != 0) ret.push(days + "d");
-    if (hours != 0) ret.push(monoDig(`${hours}:${twoDig(minutes)}:${twoDig(seconds)}`));
+    if (weeks != 0) ret.push(_("short_weeks")(weeks));
+    if (days != 0) ret.push(_("short_days")(days));
+    if (hours != 0 || weeks != 0 || days != 0) ret.push(monoDig(`${hours}:${twoDig(minutes)}:${twoDig(seconds)}`));
     else if (minutes != 0) ret.push(monoDig(`${minutes}:${twoDig(seconds)}`));
-    else if (hours != 0) ret.push(monoDig(seconds) + "s");
-    if (ret.length == 0) return "Now.";
-    if (then < now) ret.push("ago");
+    else if (hours != 0) ret.push(_("short_seconds")(monoDig(seconds)));
+    if (ret.length == 0) return _("now");
+    if (then < now) _("ago")(ret);
     return ret.join(" ");
 }
 

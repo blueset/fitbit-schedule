@@ -16,11 +16,6 @@ A schedule viewer for Fitbit OS 2.
 - [x] Countdown to the end of current event
 - [x] Countdown to the start of next event
 
-## Usage
-- Tap event block to show details
-- Swipe to the right to show countdowns
-- Tap the status bar to force refresh
-
 ## Screenshots
 
 | Versa | | |
@@ -33,6 +28,18 @@ A schedule viewer for Fitbit OS 2.
 | ![Screenshot 1](screenshots/Ionic-1.png?raw=true) | ![Screenshot 2](screenshots/Ionic-2.png?raw=true) |
 | ![Screenshot 3](screenshots/Ionic-3.png?raw=true) | ![Screenshot 4](screenshots/Ionic-4.png?raw=true) |
 
+
+## Usage
+- Tap event block to show details
+- Swipe to the right to show countdowns
+- Tap the status bar to force refresh
+
+To adjust 12h/24h settings, go to your Fitbit web profile page.
+
+## Note
+
+In 12h mode, `0:00` midnight is shown as `12:00m`, and `12:00` noon is shown as `12:00n`, other time is followed by `a` or `p` as normal.
+
 ## Plan
 
 - [ ] Multilingual support
@@ -41,7 +48,7 @@ A schedule viewer for Fitbit OS 2.
 - [ ] Theming
 - [ ] On/Off switch for countdowns
 
-## Support
+## Support me
 
 If you like my apps, [buy me a cup of coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ilove@1a23.com&item_name=Donation%20%28Schedule%20App%29) :)
 

@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as cbor from "cbor";
 import { peerSocket } from "messaging";
+import { _ } from "../common/locale.js";
 import { GC_DATA_FILE, GC_ERROR_FILE, GC_UPDATE_TOKEN, MAX_EVENT_COUNT } from "../common/const";
 
 export default class GCalendar {
@@ -39,7 +40,7 @@ export default class GCalendar {
     } else if (fileName === GC_ERROR_FILE) {
       const error = fs.readFileSync(GC_ERROR_FILE, "cbor");
       console.log(`Events read error. ${error} ${JSON.stringify(error)}`);
-      this.onError(`Error occured while getting events: ${JSON.stringify(error)}`);
+      this.onError(_("error_get_events")(JSON.stringify(error)));
     } else return false;
   }
   
@@ -76,7 +77,7 @@ export default class GCalendar {
       peerSocket.send({GC_UPDATE_TOKEN: true});
     } else {
       console.log("No connection with the companion");
-       this.onError("No connection with the companion.");
+      this.onError(_("no_connection_to_companion"));
     }
     return this._events;
   }
