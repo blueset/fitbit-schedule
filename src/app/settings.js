@@ -8,7 +8,10 @@ export function loadSettings() {
         // Defaults
         return { 
           default: new Date(),
-          system_default_font: false
+          system_default_font: false,
+          hide_countdown: false,
+          show_countdown_seconds: false,
+          language_override: "default",
         };
     }
 }

@@ -1,0 +1,43 @@
+{
+    "internet_required": "本应用需要互联网连接权限。",
+    "rib_required": "后台运行权限未授权。日历更新可能会有延迟。",
+    "login_required": "请在应用设定中登录您的日历。登录后如未显示日程，请重新启动本应用。",
+    "updated_time_ago": "更新于{0} {1}",
+    "no_event": "没有可显示的应用。",
+    "updating": "正在更新...",
+    "no_connection_to_companion": "无法连接到手机（伴侣应用）。",
+    "today": "今天",
+    "now": "现在",
+    "ago": "前",
+    "short_weeks": "{0}周",
+    "short_days": "{0}日",
+    "short_seconds": "{0}秒",
+    "error_get_events": "获取日程时出现问题: {0}",
+    "next_event": "接下来...",
+    "happening_now": "正在进行...",
+    "back": "返回",
+    "day_names": [
+        "日",
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六"
+    ],
+    "month_names": [
+        "1月",
+        "2月",
+        "3月",
+        "4月",
+        "5月",
+        "6月",
+        "7月",
+        "8月",
+        "9月",
+        "10月",
+        "11月",
+        "12月"
+    ],
+    "date_format": "{0}{1}日 周{2}"
+}

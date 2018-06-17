@@ -15,6 +15,9 @@ A schedule viewer for Fitbit OS 2.
 - [x] Detail page showing event title, time and location.
 - [x] Countdown to the end of current event
 - [x] Countdown to the start of next event
+- [x] East Asian text support
+- [x] On/Off switch for countdowns
+- [x] Multilingual support (English (US), 简体中文（中国）, 日本語)
 
 ## Screenshots
 
@@ -28,7 +31,6 @@ A schedule viewer for Fitbit OS 2.
 | ![Screenshot 1](screenshots/Ionic-1.png?raw=true) | ![Screenshot 2](screenshots/Ionic-2.png?raw=true) |
 | ![Screenshot 3](screenshots/Ionic-3.png?raw=true) | ![Screenshot 4](screenshots/Ionic-4.png?raw=true) |
 
-
 ## Usage
 - Tap event block to show details
 - Swipe to the right to show countdowns
@@ -41,12 +43,8 @@ To adjust 12h/24h settings, go to your Fitbit web profile page.
 In 12h mode, `0:00` midnight is shown as `12:00m`, and `12:00` noon is shown as `12:00n`, other time is followed by `a` or `p` as normal.
 
 ## Plan
-
-- [ ] Multilingual support
-- [x] East Asian text support
 - [ ] Other calendar service support (Outlook, etc.)
 - [ ] Theming
-- [ ] On/Off switch for countdowns
 
 ## Support me
 

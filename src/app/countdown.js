@@ -17,7 +17,13 @@ const thisMarquee = thisEventPage.getElementById("event-name-marquee");
 const nextMarquee = nextEventPage.getElementById("event-name-marquee");
 const container = document.getElementById("container");
 
-export function renderCountdown(events) {
+export function renderCountdown(settings, events) {
+    if (settings.hide_countdown) {
+      thisEventPage.style.display = "none";
+      nextEventPage.style.display = "none";
+      container.value = 0;
+      return;
+    }
     thisEvent = undefined;
     nextEvent = undefined;
     const now = new Date();
@@ -57,10 +63,10 @@ export function renderCountdown(events) {
         nextEventPage.style.display = "none";
     }
     container.value = 0;
-    tickCountdown({ date: new Date() }, true);
+    tickCountdown(settings, { date: new Date() }, true);
 }
 
-function countdownStr(now, then) {
+function countdownStr(settings, now, then) {
     let weeks = 0, days = 0, hours = 0, minutes = 0, seconds = 0;
     let diff = Math.abs(then - now);
     diff = diff / 1000 >> 0;
@@ -73,24 +79,29 @@ function countdownStr(now, then) {
     days = diff % 7;
     weeks = diff / 7 >> 0;
     let ret = [];
-    if (weeks != 0) ret.push(_("short_weeks")(weeks));
-    if (days != 0) ret.push(_("short_days")(days));
-    if (hours != 0 || weeks != 0 || days != 0) ret.push(monoDig(`${hours}:${twoDig(minutes)}:${twoDig(seconds)}`));
-    else if (minutes != 0) ret.push(monoDig(`${minutes}:${twoDig(seconds)}`));
-    else if (hours != 0) ret.push(_("short_seconds")(monoDig(seconds)));
-    if (ret.length == 0) return _("now");
-    if (then < now) _("ago")(ret);
+    if (weeks != 0) ret.push(_("short_weeks", weeks));
+    if (days != 0) ret.push(_("short_days", days));
+    if (settings.countdown_second) {
+      if (hours != 0) ret.push(monoDig(`${hours}:${twoDig(minutes)}:${twoDig(seconds)}`));
+      else if (minutes != 0) ret.push(monoDig(`${minutes}:${twoDig(seconds)}`));
+      else ret.push(_(monoDig("short_seconds", seconds)));
+    } else {
+      if (hours != 0 || minutes != 0) ret.push(monoDig(`${hours}:${twoDig(minutes)}`));
+      else ret.push(_("right_now"));
+    }
+    if (ret.length == 0) return _("right_now");
+    if (then < now) ret.push(_("ago"));
     return ret.join(" ");
 }
 
-export function tickCountdown(tick, force) {
+export function tickCountdown(settings, tick, force) {
     const now = tick.date;
     if (thisEvent !== undefined && (container.value == 1 || force)) {
         if (thisEvent.end < now)
             return renderCountdown(calendar.getEvents());
         thisEventDate.text = formatDate(now, false);
         thisEventTime.text = monoDig(formatTime(now));
-        thisEventCD.text = countdownStr(now, thisEvent.end);
+        thisEventCD.text = countdownStr(settings, now, thisEvent.end);
         if (!force) return;
     }
     if (nextEvent !== undefined && (container.value > 0 || force)) {
@@ -98,6 +109,6 @@ export function tickCountdown(tick, force) {
             return renderCountdown(calendar.getEvents());
         nextEventDate.text = formatDate(now, false);
         nextEventTime.text = monoDig(formatTime(now));
-        nextEventCD.text = countdownStr(now, nextEvent.start);
+        nextEventCD.text = countdownStr(settings, now, nextEvent.start);
     }
 }

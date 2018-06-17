@@ -30,7 +30,14 @@ export function formatTime(timeStamp) {
     }
 }
 
-export const formatDate = _("formatDate");
+export const formatDate = function (timeStamp, markToday) {
+    const dayNames = _("day_names");
+    const monthNames = _("month_names");
+    let time = new Date(timeStamp);
+    if (time.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0) && markToday)
+        return _("today");
+    return _("date_format", monthNames[time.getMonth()], time.getDate(), dayNames[time.getDay()]);
+};
 
 export function formatTimeRange(start, end, markToday, allDay, markDate) {
     if (allDay) {

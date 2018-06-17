@@ -68,7 +68,7 @@
 
     <svg id="header-container" x="0" y="0" width="100%" height="40" pointer-events="visible">
       <rect id="header" x="0" y="0" width="100%" height="100%" />
-      <text id="date-now" class="header-text" x="15" y="30" text-anchor="start">10 DEC, 2018</text>
+      <text id="date-now" class="header-text" x="15" y="30" text-length="20" text-anchor="start">10 DEC, 2018</text>
       <text id="battery" class="header-text" x="100%-85" y="30" text-anchor="end">80%</text>
       <text id="time-now" class="header-text" x="100%-15" y="30" text-anchor="end">23:45</text>
     </svg>

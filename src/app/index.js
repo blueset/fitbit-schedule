@@ -1,3 +1,7 @@
+import { memory } from "system";
+
+console.log("On start JS memory: " + memory.js.used + "/" + memory.js.total);
+
 import document from "document";
 import * as messaging from "messaging";
 import { inbox } from "file-transfer";
@@ -5,7 +9,6 @@ import clock from "clock";
 import { battery } from "power";
 import { me } from "appbit";
 import { me as device } from "device";
-import { locale } from "user-settings";
 import { _ } from "../common/locale.js";
 import { initLocale } from "locale.js";
 
@@ -19,11 +22,8 @@ import { renderPersistentErrorMessage } from "utils.js";
 import { renderOverlay, overlayInit } from "overlay.js";
 import { loadSettings, saveSettings } from "settings.js";
 import { renderCountdown, tickCountdown } from "countdown.js";
-import { timeAgo } from "timeAgo.js";
 
 const calendar = new GCalendar();
-
-clock.granularity = "seconds";
 
 var listStorage = [];
 
@@ -33,18 +33,19 @@ const batteryText = document.getElementById("battery");
 
 const eventListSV = document.getElementById("event-list");
 const container = document.getElementById("container");
-
 var settings = loadSettings();
+
+clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
 
 var fontFamily;
 
 function updateFont() {
-  fontFamily = (settings.system_default_font || locale.language.match(/^(zh|ja|ko)/)) ? "System" : "Fabrikat";
+  fontFamily = (settings.system_default_font) ? "System" : "Fabrikat";
   dateText.style.fontFamily = `${fontFamily}-Regular`;
 }
 
 updateFont();
-initLocale();
+initLocale(settings.language_override && settings.language_override.values[0].value);
 
 me.onunload = () => { saveSettings(settings); };
 
@@ -56,7 +57,7 @@ clock.ontick = function (evt) {
     batteryText.text = Math.floor(battery.chargeLevel) + "%";
     batteryText.x = timeText.getBBox().left - 5;
   } else {
-    tickCountdown(evt, false);
+    tickCountdown(settings, evt, false);
   }
 };
 
@@ -68,25 +69,31 @@ inbox.addEventListener("newfile", function () {
 });
 
 messaging.peerSocket.onmessage = (evt) => {
-  if (evt.data.newValue === "false") evt.data.newValue = false;
-  else if (evt.data.newValue === "true") evt.data.newValue = true;
-  console.log(`${evt.data.key} received with value ${evt.data.newValue}`);
-  settings[evt.data.key] = evt.data.newValue;
+  try {
+    settings[evt.data.key] = JSON.parse(evt.data.newValue);
+  } catch (e) {
+    settings[evt.data.key] = evt.data.newValue;
+  }
 
   if (evt.data.key === 'oauth_refresh_token' && !evt.data.restore) {
     // Google calendar OAuth settings
-    console.log("New OAuth refresh token received");
     if (evt.data.newValue === undefined) {
-      console.log("Dropping events...");
       calendar.dropEvents();
     } else if (calendar.fetchEvents()) {
-      console.log("Rendering events...");
       calendar.onUpdate();
     }
   } else if (evt.data.key === 'system_default_font' && !evt.data.restore) {
     // Font change
     updateFont();
     eventListSV.redraw();
+  } else if (!evt.data.restore && (evt.data.key === "hide_countdown")) {
+    renderEvents();
+    clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
+  } else if (!evt.data.restore && evt.data.key === "countdown_second") {
+    tickCountdown(settings, { date: new Date() }, true);
+    clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
+  } else if (!evt.data.restore && (evt.data.key === "language_override")) {
+    initLocale(settings.language_override && settings.language_override.values[0].value);
   }
 };
 
@@ -102,14 +109,13 @@ messaging.peerSocket.onclose = () => {
 
 function renderEvents() {
   if (!me.permissions.granted("access_internet")) {
-    renderCountdown([]);
+    renderCountdown(settings, []);
     listStorage = renderPersistentErrorMessage(_("internet_required"), eventListSV);
-    return;
   }
   if (!me.permissions.granted("run_background"))
     listStorage = renderSnackbar(_("rib_required"), eventListSV);
   if (!settings.oauth_refresh_token) {
-    renderCountdown([]);
+    renderCountdown(settings, []);
     listStorage = renderPersistentErrorMessage(_("login_required"), eventListSV);
     return;
   }
@@ -118,7 +124,7 @@ function renderEvents() {
   listStorage = [
     {
       type: "last-update-pool",
-      value: _("updated_time_ago")(timeAgo.format(lastUpdateTime))
+      value: _("updated_time_ago", formatDate(lastUpdateTime, true), formatTime(lastUpdateTime))
     }
   ];
   let lastDay = formatDate(now, false);
@@ -154,7 +160,7 @@ function renderEvents() {
   eventListSV.length = listStorage.length;
   for (let i = 0; i < eventListSV.length; i++) eventListSV.updateTile(i, { redraw: false });
   eventListSV.redraw();
-  renderCountdown(events);
+  renderCountdown(settings, events);
 }
 
 const dsvItem = document.getElementById("dsv-item");

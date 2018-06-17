@@ -40,7 +40,7 @@ export default class GCalendar {
     } else if (fileName === GC_ERROR_FILE) {
       const error = fs.readFileSync(GC_ERROR_FILE, "cbor");
       console.log(`Events read error. ${error} ${JSON.stringify(error)}`);
-      this.onError(_("error_get_events")(JSON.stringify(error)));
+      this.onError(_("error_get_events", JSON.stringify(error)));
     } else return false;
   }
   

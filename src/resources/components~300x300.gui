@@ -43,7 +43,7 @@
     <!-- Countdown view -->
     <symbol id="countdown-view" href="#panoramaview-item">
       <text x="10" y="40" class="countdown-name" id="countdown-name" text-anchor="start">Happening now...</text>
-      <text x="100%-10" y="40" class="countdown-target" id="countdown-target" text-anchor="end" text-length="32">10:20, 20 Nov</text>
+      <text x="100%-10" y="40" class="countdown-target" id="countdown-target" text-anchor="end" text-length="36">10:20, 20 Nov</text>
       <use id="event-name-marquee" href="#marquee-text" font-size="35" x="10" y="40" width="100%-20"
         height="60" fill="fb-aqua" mode="0" value="50">
         <set href="group/text" attributeName="text-buffer" to="Event going on with a super long name" />
@@ -54,7 +54,7 @@
       
       <textarea id="countdown-time" x="10" width="100%-20" class="countdown-time" text-anchor="start" rows="2" text-overflow="ellipsis"  text-length="32">1w 3d 18:20:27</textarea>
       
-      <text x="10" y="100%-15" class="countdown-now" id="date-now" text-anchor="start" text-length="16">20 Nov 2018.</text>
+      <text x="10" y="100%-15" class="countdown-now" id="date-now" text-anchor="start" text-length="20">20 Nov 2018.</text>
       <text x="100%-10" y="100%-15" class="countdown-now" id="time-now" text-anchor="end" text-length="8">10:30</text>
     </symbol>
     
