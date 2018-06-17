@@ -43,8 +43,8 @@ function updateFont() {
 }
 
 updateFont();
-try{initLocale(settings.language_override.values[0].value);}
-catch(err) {}
+try { initLocale(settings.language_override.values[0].value); }
+catch (err) { initLocale("en-US"); }
 
 me.onunload = () => { saveSettings(settings); };
 
@@ -91,10 +91,11 @@ messaging.peerSocket.onmessage = (evt) => {
   } else if (!evt.data.restore && evt.data.key === "countdown_second") {
     tickCountdown(settings, { date: new Date() }, true);
     clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
-  } else if (!evt.data.restore && (evt.data.key === "language_override")) { 
-    
-    try{initLocale(settings.language_override.values[0].value);}
-    catch(err) {
+  } else if (!evt.data.restore && (evt.data.key === "language_override")) {
+
+    try { initLocale(settings.language_override.values[0].value); }
+    catch (err) {
+      initLocale("en-US");
       console.log(`Malformed language entry: ${settings.language_override}`);
     }
 

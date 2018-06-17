@@ -2,8 +2,13 @@ import { G_CALENDAR_CLIENT_ID, G_CALENDAR_CLIENT_SECRET } from "../common/config
 import { _, setPrefLanguage } from "settingsLocale.js";
 
 function mySettings(props) {
-  let overrideLanguage = JSON.parse(props.settingsStorage.getItem("language_override"));
-  setPrefLanguage(overrideLanguage && overrideLanguage.values[0].value);
+  try {
+    let overrideLanguage = JSON.parse(props.settingsStorage.getItem("language_override"));
+    setPrefLanguage(overrideLanguage && overrideLanguage.values[0].value);
+  } catch (e) {
+    setPrefLanguage("en-US");
+    console.log("Malformed language settings: " + e + ", " + props.settingsStorage.getItem("language_override"));
+  }
 
   return (
     <Page>
