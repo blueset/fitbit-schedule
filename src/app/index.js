@@ -1,7 +1,5 @@
 import { memory } from "system";
 
-console.log("On start JS memory: " + memory.js.used + "/" + memory.js.total);
-
 import document from "document";
 import * as messaging from "messaging";
 import { inbox } from "file-transfer";
@@ -45,7 +43,8 @@ function updateFont() {
 }
 
 updateFont();
-initLocale(settings.language_override && settings.language_override.values[0].value);
+try{initLocale(settings.language_override.values[0].value);}
+catch(err) {}
 
 me.onunload = () => { saveSettings(settings); };
 
@@ -92,8 +91,13 @@ messaging.peerSocket.onmessage = (evt) => {
   } else if (!evt.data.restore && evt.data.key === "countdown_second") {
     tickCountdown(settings, { date: new Date() }, true);
     clock.granularity = (!settings.hide_countdown && settings.countdown_second) ? "seconds" : "minutes";
-  } else if (!evt.data.restore && (evt.data.key === "language_override")) {
-    initLocale(settings.language_override && settings.language_override.values[0].value);
+  } else if (!evt.data.restore && (evt.data.key === "language_override")) { 
+    
+    try{initLocale(settings.language_override.values[0].value);}
+    catch(err) {
+      console.log(`Malformed language entry: ${settings.language_override}`);
+    }
+
   }
 };
 

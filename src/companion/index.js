@@ -2,6 +2,7 @@ import * as messaging from "messaging";
 import { settingsStorage } from "settings";
 import GCalendar from "./gCalendar";
 import { me } from "companion";
+import { GC_DATA_FILE, GC_ERROR_FILE, GC_UPDATE_TOKEN, MAX_EVENT_COUNT, GC_FETCH_TOKEN } from "../common/const";
 
 const gCalendar = new GCalendar();
 
