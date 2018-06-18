@@ -51,8 +51,8 @@ export function renderCountdown(settings, events) {
     }
     if (nextEvent) {
         nextEventPage.style.display = "inline";
-        let downToTime = formatTime(nextEvent.end);
-        let downToDate = formatDate(nextEvent.end, true);
+        let downToTime = formatTime(nextEvent.start);
+        let downToDate = formatDate(nextEvent.start, true);
         if (downToDate !== _("today")) downToTime += ", " + downToDate;
         nextEventPage.getElementById("countdown-target").text = downToTime;
         nextMarquee.getElementById("text").text = nextEvent.summary;
