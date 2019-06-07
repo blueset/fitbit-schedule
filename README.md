@@ -1,3 +1,8 @@
+# Notice
+This project is abandoned as my Versa was faulty and returned for a refund.
+
+This project is forked by [@hjochman](https://github.com/hjochman) for [Caldav/iCal support](https://github.com/hjochman/fitbit-schedule). Other forks can be found [here](https://github.com/blueset/fitbit-schedule/network).
+
 # Schedule
 
 A schedule viewer for Fitbit OS 2.
